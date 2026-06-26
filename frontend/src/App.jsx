@@ -36,49 +36,55 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-ink">
-      {/* Header */}
-      <header className="border-b border-line bg-panel/40">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded bg-accent/15 border border-accent/30 flex items-center justify-center">
-              <span className="text-accent font-bold text-sm">Q</span>
+      {/* Header — terminal status bar */}
+      <header className="border-b border-line bg-panel/60 backdrop-blur-sm">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-7 h-7 shrink-0 rounded border border-accent/40 bg-accent/10 flex items-center justify-center">
+              <span className="text-accent font-mono font-bold text-xs">Q</span>
             </div>
-            <div>
-              <h1 className="text-text font-semibold text-sm leading-tight">Qode Backtester</h1>
-              <p className="text-mute text-[11px] leading-tight">Fundamental equity strategy engine</p>
+            <div className="min-w-0">
+              <h1 className="text-text font-semibold text-sm leading-tight truncate">Qode Backtester</h1>
+              <p className="text-mute2 text-2xs leading-tight font-mono truncate">fundamental.equity.engine</p>
             </div>
           </div>
-          <span className="text-[11px] text-mute tabular border border-line rounded-full px-3 py-1">
-            NSE · 100+ Universe
-          </span>
+          <div className="hidden sm:flex items-center gap-2 text-2xs font-mono text-mute shrink-0">
+            <span className="flex items-center gap-1.5 border border-line rounded px-2.5 py-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+              NSE
+            </span>
+            <span className="border border-line rounded px-2.5 py-1">123 SYMBOLS</span>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6">
+      <main className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 sm:py-8 grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-5 sm:gap-6">
         {/* Sidebar: Strategy config */}
-        <aside className="bg-panel border border-line rounded-xl p-5 lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
+        <aside className="bg-panel border border-line rounded-lg p-4 sm:p-5 min-w-0 lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
           <StrategyForm metrics={metrics} onRun={handleRun} loading={loading} />
         </aside>
 
         {/* Results */}
-        <section className="space-y-5">
+        <section className="space-y-4 sm:space-y-5 min-w-0">
           {error && (
-            <div className="bg-accent2/10 border border-accent2/30 text-accent2 text-sm rounded-lg p-4">
+            <div className="bg-accent2/10 border border-accent2/30 text-accent2 text-sm rounded-lg p-4 font-mono">
               {error}
             </div>
           )}
 
           {!result && !error && !loading && (
-            <div className="bg-panel border border-line rounded-xl p-10 text-center">
+            <div className="bg-panel border border-line border-dashed rounded-lg p-10 sm:p-14 text-center">
+              <p className="font-mono text-mute2 text-2xs tracking-widest mb-2">AWAITING INPUT</p>
               <p className="text-mute text-sm">
-                Configure your strategy on the left and click <span className="text-accent">Run Backtest</span> to see results.
+                Set your filters and ranking on the left, then run a backtest to see the equity curve and metrics here.
               </p>
             </div>
           )}
 
           {loading && (
-            <div className="bg-panel border border-line rounded-xl p-10 text-center">
-              <p className="text-mute text-sm animate-pulse">Running backtest across the universe…</p>
+            <div className="bg-panel border border-line rounded-lg p-10 sm:p-14 text-center">
+              <p className="font-mono text-accent text-2xs tracking-widest mb-2 animate-pulse">RUNNING</p>
+              <p className="text-mute text-sm">Walking the universe through each rebalance date…</p>
             </div>
           )}
 

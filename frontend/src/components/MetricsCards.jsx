@@ -1,10 +1,22 @@
 import React from "react";
 
-function Card({ label, value, accent }) {
+function Card({ label, value, tone }) {
+  const toneClass =
+    tone === "up" ? "text-accent" : tone === "down" ? "text-accent2" : "text-text";
+  const borderClass =
+    tone === "up" ? "border-l-accent/60" : tone === "down" ? "border-l-accent2/60" : "border-l-line2";
+
   return (
-    <div className="bg-panel border border-line rounded-lg p-4 flex flex-col gap-1">
-      <span className="text-[11px] uppercase tracking-wider text-mute font-medium">{label}</span>
-      <span className={`text-2xl font-semibold tabular ${accent || "text-text"}`}>{value}</span>
+    <div
+      className={`bg-panel border border-line border-l-2 ${borderClass} rounded-md px-3.5 py-3 min-w-0`}
+    >
+      <p className="font-mono text-2xs tracking-wider text-mute2 uppercase truncate">{label}</p>
+      <p
+        className={`font-mono font-semibold ${toneClass} text-base sm:text-lg lg:text-xl mt-1 truncate`}
+        title={String(value)}
+      >
+        {value}
+      </p>
     </div>
   );
 }
@@ -12,15 +24,14 @@ function Card({ label, value, accent }) {
 export default function MetricsCards({ metrics }) {
   if (!metrics) return null;
 
-  const cagrColor = metrics.cagr >= 0 ? "text-accent" : "text-accent2";
-  const ddColor = "text-accent2";
+  const cagrTone = metrics.cagr >= 0 ? "up" : "down";
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-      <Card label="CAGR" value={`${metrics.cagr}%`} accent={cagrColor} />
-      <Card label="Sharpe Ratio" value={metrics.sharpe_ratio} />
-      <Card label="Max Drawdown" value={`${metrics.max_drawdown}%`} accent={ddColor} />
-      <Card label="Total Return" value={`${metrics.total_return_pct}%`} accent={cagrColor} />
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+      <Card label="CAGR" value={`${metrics.cagr}%`} tone={cagrTone} />
+      <Card label="Sharpe" value={metrics.sharpe_ratio} />
+      <Card label="Max DD" value={`${metrics.max_drawdown}%`} tone="down" />
+      <Card label="Total Return" value={`${metrics.total_return_pct}%`} tone={cagrTone} />
       <Card
         label="Final Value"
         value={`₹${Number(metrics.final_portfolio_value).toLocaleString("en-IN", { maximumFractionDigits: 0 })}`}

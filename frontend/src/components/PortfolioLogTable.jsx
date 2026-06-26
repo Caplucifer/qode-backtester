@@ -49,32 +49,32 @@ export default function PortfolioLogTable({ logs }) {
   }
 
   return (
-    <div className="bg-panel border border-line rounded-lg p-4">
-      <div className="flex items-center justify-between mb-3">
+    <div className="bg-panel border border-line rounded-lg p-4 sm:p-5 min-w-0">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
         <h3 className="text-sm font-semibold text-text">Portfolio Logs</h3>
         <div className="flex gap-2">
-          <button onClick={exportCSV} className="text-xs border border-line rounded px-3 py-1.5 text-mute hover:text-accent hover:border-accent transition">
-            Export CSV
+          <button onClick={exportCSV} className="font-mono text-2xs border border-line rounded px-2.5 py-1.5 text-mute hover:text-accent hover:border-accent/50 transition">
+            EXPORT CSV
           </button>
-          <button onClick={exportExcel} className="text-xs border border-line rounded px-3 py-1.5 text-mute hover:text-accent hover:border-accent transition">
-            Export Excel
+          <button onClick={exportExcel} className="font-mono text-2xs border border-line rounded px-2.5 py-1.5 text-mute hover:text-accent hover:border-accent/50 transition">
+            EXPORT XLS
           </button>
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-xs">
+      <div className="overflow-x-auto -mx-1">
+        <table className="w-full text-xs font-mono min-w-[560px]">
           <thead>
-            <tr className="text-mute uppercase text-[10px] tracking-wider border-b border-line">
-              <th className="text-left py-2 px-2">Rebalance Date</th>
-              <th className="text-left py-2 px-2">Symbol</th>
-              <th className="text-right py-2 px-2">Weight</th>
-              <th className="text-right py-2 px-2">Entry Price</th>
-              <th className="text-right py-2 px-2">Exit Price</th>
-              <th className="text-right py-2 px-2">Return</th>
+            <tr className="text-mute2 text-2xs tracking-wider border-b border-line">
+              <th className="text-left py-2 px-2 font-medium">REBALANCE</th>
+              <th className="text-left py-2 px-2 font-medium">SYMBOL</th>
+              <th className="text-right py-2 px-2 font-medium">WEIGHT</th>
+              <th className="text-right py-2 px-2 font-medium">ENTRY</th>
+              <th className="text-right py-2 px-2 font-medium">EXIT</th>
+              <th className="text-right py-2 px-2 font-medium">RETURN</th>
             </tr>
           </thead>
-          <tbody className="tabular">
+          <tbody>
             {pageRows.map((row, i) => (
               <tr key={i} className="border-b border-line/40 hover:bg-panel2/50">
                 <td className="py-1.5 px-2 text-text">{row.rebalance_date}</td>
@@ -91,24 +91,24 @@ export default function PortfolioLogTable({ logs }) {
         </table>
       </div>
 
-      <div className="flex items-center justify-between mt-3 text-xs text-mute">
+      <div className="flex items-center justify-between mt-3 font-mono text-2xs text-mute2">
         <span>
-          Showing {page * pageSize + 1}–{Math.min((page + 1) * pageSize, logs.length)} of {logs.length}
+          {page * pageSize + 1}–{Math.min((page + 1) * pageSize, logs.length)} OF {logs.length}
         </span>
         <div className="flex gap-2">
           <button
             disabled={page === 0}
             onClick={() => setPage((p) => p - 1)}
-            className="border border-line rounded px-2 py-1 disabled:opacity-30 hover:text-accent hover:border-accent transition"
+            className="border border-line rounded px-2.5 py-1 disabled:opacity-30 hover:text-accent hover:border-accent/50 transition"
           >
-            Prev
+            PREV
           </button>
           <button
             disabled={page >= totalPages - 1}
             onClick={() => setPage((p) => p + 1)}
-            className="border border-line rounded px-2 py-1 disabled:opacity-30 hover:text-accent hover:border-accent transition"
+            className="border border-line rounded px-2.5 py-1 disabled:opacity-30 hover:text-accent hover:border-accent/50 transition"
           >
-            Next
+            NEXT
           </button>
         </div>
       </div>

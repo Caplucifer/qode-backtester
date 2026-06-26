@@ -9,7 +9,7 @@ const SIZING_METHODS = [
 
 function FieldLabel({ children }) {
   return (
-    <label className="block text-[11px] uppercase tracking-wider text-mute mb-1.5 font-medium">
+    <label className="block font-mono text-2xs uppercase tracking-wider text-mute2 mb-1.5">
       {children}
     </label>
   );
@@ -19,9 +19,9 @@ function TextInput(props) {
   return (
     <input
       {...props}
-      className="w-full bg-panel2 border border-line rounded-md px-3 py-2 text-sm text-text
-                 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent
-                 placeholder:text-mute/60 tabular"
+      className={`w-full bg-panel2 border border-line rounded-md px-3 py-2 text-sm text-text font-mono
+                 focus:outline-none focus:ring-1 focus:ring-accent/60 focus:border-accent/60
+                 placeholder:text-mute2/70 min-w-0 ${props.className || ""}`}
     />
   );
 }
@@ -33,7 +33,7 @@ function Select({ value, onChange, options, ...props }) {
       onChange={onChange}
       {...props}
       className="w-full bg-panel2 border border-line rounded-md px-3 py-2 text-sm text-text
-                 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                 focus:outline-none focus:ring-1 focus:ring-accent/60 focus:border-accent/60 min-w-0"
     >
       {options.map((opt) => (
         <option key={opt.value} value={opt.value}>
@@ -54,7 +54,7 @@ export default function StrategyForm({ metrics, onRun, loading }) {
   const [initialCapital, setInitialCapital] = useState(1000000);
 
   const [filters, setFilters] = useState([
-    { metric: "market_cap", min_value: 1000, max_value: 10000 },
+    { metric: "market_cap", min_value: 10000, max_value: 300000 },
     { metric: "pat", min_value: 0, max_value: null },
   ]);
 
@@ -122,7 +122,7 @@ export default function StrategyForm({ metrics, onRun, loading }) {
       {/* Date range + core params */}
       <section>
         <h3 className="text-sm font-semibold text-text mb-3 flex items-center gap-2">
-          <span className="text-accent">01</span> Period &amp; Rebalancing
+          <span className="font-mono text-accent">01</span> Period & Rebalancing
         </h3>
         <div className="grid grid-cols-2 gap-3">
           <div>
@@ -151,7 +151,7 @@ export default function StrategyForm({ metrics, onRun, loading }) {
       {/* Position sizing */}
       <section>
         <h3 className="text-sm font-semibold text-text mb-3 flex items-center gap-2">
-          <span className="text-accent">02</span> Position Sizing
+          <span className="font-mono text-accent">02</span> Position Sizing
         </h3>
         <div className="grid grid-cols-2 gap-3">
           <div>
@@ -175,7 +175,7 @@ export default function StrategyForm({ metrics, onRun, loading }) {
       <section>
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-semibold text-text flex items-center gap-2">
-            <span className="text-accent">03</span> Filters
+            <span className="font-mono text-accent">03</span> Filters
           </h3>
           <button type="button" onClick={addFilter} className="text-xs text-accent hover:underline">
             + Add filter
@@ -183,32 +183,36 @@ export default function StrategyForm({ metrics, onRun, loading }) {
         </div>
         <div className="space-y-2">
           {filters.map((f, idx) => (
-            <div key={idx} className="flex items-center gap-2 bg-panel2/50 border border-line rounded-md p-2">
-              <div className="flex-1">
-                <Select value={f.metric} onChange={(e) => updateFilter(idx, "metric", e.target.value)} options={metricOptions} />
+            <div key={idx} className="bg-panel2/50 border border-line rounded-md p-2.5 space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="flex-1 min-w-0">
+                  <Select value={f.metric} onChange={(e) => updateFilter(idx, "metric", e.target.value)} options={metricOptions} />
+                </div>
+                <button type="button" onClick={() => removeFilter(idx)} className="text-mute2 hover:text-accent2 px-1 text-sm shrink-0">
+                  ✕
+                </button>
               </div>
-              <TextInput
-                type="number"
-                placeholder="min"
-                value={f.min_value ?? ""}
-                onChange={(e) => updateFilter(idx, "min_value", e.target.value)}
-                className="w-24"
-              />
-              <span className="text-mute text-xs">to</span>
-              <TextInput
-                type="number"
-                placeholder="max"
-                value={f.max_value ?? ""}
-                onChange={(e) => updateFilter(idx, "max_value", e.target.value)}
-                className="w-24"
-              />
-              <button type="button" onClick={() => removeFilter(idx)} className="text-mute hover:text-accent2 px-1 text-sm">
-                ✕
-              </button>
+              <div className="flex items-center gap-2">
+                <TextInput
+                  type="number"
+                  placeholder="min"
+                  value={f.min_value ?? ""}
+                  onChange={(e) => updateFilter(idx, "min_value", e.target.value)}
+                  className="flex-1 min-w-0"
+                />
+                <span className="font-mono text-2xs text-mute2 shrink-0">TO</span>
+                <TextInput
+                  type="number"
+                  placeholder="max"
+                  value={f.max_value ?? ""}
+                  onChange={(e) => updateFilter(idx, "max_value", e.target.value)}
+                  className="flex-1 min-w-0"
+                />
+              </div>
             </div>
           ))}
           {filters.length === 0 && (
-            <p className="text-xs text-mute italic">No filters — full universe will be ranked.</p>
+            <p className="text-xs text-mute italic">No filters configured — full universe will be ranked.</p>
           )}
         </div>
       </section>
@@ -217,7 +221,7 @@ export default function StrategyForm({ metrics, onRun, loading }) {
       <section>
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-semibold text-text flex items-center gap-2">
-            <span className="text-accent">04</span> Ranking
+            <span className="font-mono text-accent">04</span> Ranking
           </h3>
           <button type="button" onClick={addRank} className="text-xs text-accent hover:underline">
             + Add metric
@@ -225,30 +229,36 @@ export default function StrategyForm({ metrics, onRun, loading }) {
         </div>
         <div className="space-y-2">
           {rankRules.map((r, idx) => (
-            <div key={idx} className="flex items-center gap-2 bg-panel2/50 border border-line rounded-md p-2">
-              <div className="flex-1">
-                <Select value={r.metric} onChange={(e) => updateRank(idx, "metric", e.target.value)} options={metricOptions} />
+            <div key={idx} className="bg-panel2/50 border border-line rounded-md p-2.5 space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="flex-1 min-w-0">
+                  <Select value={r.metric} onChange={(e) => updateRank(idx, "metric", e.target.value)} options={metricOptions} />
+                </div>
+                <button type="button" onClick={() => removeRank(idx)} className="text-mute2 hover:text-accent2 px-1 text-sm shrink-0">
+                  ✕
+                </button>
               </div>
-              <Select
-                value={r.ascending ? "asc" : "desc"}
-                onChange={(e) => updateRank(idx, "ascending", e.target.value === "asc")}
-                options={[
-                  { value: "desc", label: "Higher better" },
-                  { value: "asc", label: "Lower better" },
-                ]}
-              />
-              <TextInput
-                type="number"
-                step="0.1"
-                placeholder="wt"
-                value={r.weight}
-                onChange={(e) => updateRank(idx, "weight", e.target.value)}
-                className="w-16"
-                title="Composite weight"
-              />
-              <button type="button" onClick={() => removeRank(idx)} className="text-mute hover:text-accent2 px-1 text-sm">
-                ✕
-              </button>
+              <div className="flex items-center gap-2">
+                <div className="flex-[2] min-w-0">
+                  <Select
+                    value={r.ascending ? "asc" : "desc"}
+                    onChange={(e) => updateRank(idx, "ascending", e.target.value === "asc")}
+                    options={[
+                      { value: "desc", label: "Higher better" },
+                      { value: "asc", label: "Lower better" },
+                    ]}
+                  />
+                </div>
+                <TextInput
+                  type="number"
+                  step="0.1"
+                  placeholder="wt"
+                  value={r.weight}
+                  onChange={(e) => updateRank(idx, "weight", e.target.value)}
+                  className="w-16 shrink-0"
+                  title="Composite weight"
+                />
+              </div>
             </div>
           ))}
           {rankRules.length === 0 && (

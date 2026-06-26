@@ -4,19 +4,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#0B0E14",
-        panel: "#11151F",
-        panel2: "#161B27",
+        ink: "#0A0D12",
+        panel: "#12161D",
+        panel2: "#171C25",
         line: "#232938",
-        mute: "#6B7385",
-        text: "#E6E9F0",
-        accent: "#3FE0A5",
-        accent2: "#FF6B5E",
-        warn: "#E0B23F",
+        line2: "#2B3242",
+        mute: "#7B8496",
+        mute2: "#5B6472",
+        text: "#E8EAEF",
+        accent: "#2DD4A8",
+        accent2: "#F2545B",
+        warn: "#E8B339",
       },
       fontFamily: {
-        mono: ["IBM Plex Mono", "ui-monospace", "monospace"],
+        mono: ["JetBrains Mono", "IBM Plex Mono", "ui-monospace", "monospace"],
         sans: ["Inter", "ui-sans-serif", "system-ui"],
+      },
+      fontSize: {
+        "2xs": ["0.6875rem", { lineHeight: "1rem" }],
       },
     },
   },

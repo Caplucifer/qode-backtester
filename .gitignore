@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.db
+venv/
+env/
+.venv/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Data (raw scraped CSVs can be large -- regenerate via fetch_data.py)
+backend/data/raw/*.csv
+backend/data/raw/failed_symbols.txt
+
+# Env files
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
